@@ -1,4 +1,5 @@
 import random
+import math
 def extract_date_from_string(string: str) -> str:
     #
     
@@ -28,14 +29,15 @@ def extract_date_from_string(string: str) -> str:
 
 
 
-def calculate_score_probabilities(home_elo:float, away_elo:float) -> tuple:
+def calculate_score_probabilities(home_elo: float, away_elo: float, home_advantage: float = 75) -> tuple:
     
-    expected_home = 1 / (1 + 10 ** ((away_elo - home_elo) / 400))
+   
+    adjusted_home_elo = home_elo + home_advantage
+    
+    expected_home = 1 / (1 + 10 ** ((away_elo - adjusted_home_elo) / 400))
     expected_away = 1 - expected_home
     
-    
-    draw_probability = 0.25
-    
+    draw_probability = 0.30 * math.exp(-0.0027 * abs(adjusted_home_elo - away_elo))
     
     home_win_probability = expected_home * (1 - draw_probability)
     away_win_probability = expected_away * (1 - draw_probability)
@@ -65,3 +67,10 @@ def simulate_elo_update(home_elo: float, away_elo: float, outcome: str, k: int =
     new_away_elo = away_elo + k * (away_score - expected_away)
     
     return new_home_elo, new_away_elo
+
+
+if __name__ == "__main__":
+    print(extract_date_from_string('30 stycznia, 18:00 (3745)'))
+    print(calculate_score_probabilities(1534, 1345))
+    print(simulate_match(0.4, 0.3, 0.3))
+    print(simulate_elo_update(1500, 1600, "2"))
