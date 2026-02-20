@@ -69,6 +69,17 @@ def simulate_elo_update(home_elo: float, away_elo: float, outcome: str, k: int =
     return new_home_elo, new_away_elo
 
 
+def update_table(temporary_table, home_team, away_team, outcome):
+    if outcome == "1":
+        temporary_table[home_team]+= 3
+        
+    elif outcome == "X":
+        temporary_table[home_team]+= 1
+        temporary_table[away_team]+= 1
+    else:
+        temporary_table[away_team]+= 3
+        
+    return temporary_table
 if __name__ == "__main__":
     print(extract_date_from_string('30 stycznia, 18:00 (3745)'))
     print(calculate_score_probabilities(1534, 1345))
