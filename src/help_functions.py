@@ -1,5 +1,7 @@
 import random
 import math
+from collections import defaultdict
+import pandas as pd
 def extract_date_from_string(string: str) -> str:
     #
     
@@ -80,6 +82,44 @@ def update_table(temporary_table, home_team, away_team, outcome):
         temporary_table[away_team]+= 3
         
     return temporary_table
+
+def recursive_to_dict(d):
+    if isinstance(d, defaultdict):
+        d = {k: recursive_to_dict(v) for k, v in d.items()}
+    return d
+
+
+
+
+def sort_by_position_priority(df):
+    df_copy = df.copy()
+    ordered_teams = []
+
+    df_copy=df_copy.cumsum(axis=1)
+    for position in df.columns:
+        if df_copy.empty:
+            break
+
+        
+        best_team = df_copy[position].idxmax()
+        ordered_teams.append(best_team)
+
+       
+        df_copy = df_copy.drop(index=best_team)
+    print(ordered_teams)
+    return df.loc[ordered_teams]
+
+
+    
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     print(extract_date_from_string('30 stycznia, 18:00 (3745)'))
     print(calculate_score_probabilities(1534, 1345))

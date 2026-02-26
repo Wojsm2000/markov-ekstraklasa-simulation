@@ -5,6 +5,7 @@ from collections import defaultdict
 from datetime import datetime
 from run_one_sim import one_season_simulation
 from tqdm import tqdm
+from help_functions import recursive_to_dict
 NAMES_DICT={
     "Jagiellonia": "Jagiellonia Białystok",
     "Gornik": "Górnik Zabrze",
@@ -68,6 +69,11 @@ if __name__ == "__main__":
     elo_filepath = os.path.join(script_dir, "data", "elo_data.json")
     schedule_filepath = os.path.join(script_dir, "data", "schedule_data.json")
     table_filepath = os.path.join(script_dir, "data", "table_data.json")
-    
+    sim_file_path = os.path.join(script_dir, "data", "simulated_results.json")
     results = return_whole_sim(elo_filepath, schedule_filepath, table_filepath)
-    print(results)
+    
+
+    if isinstance(results, defaultdict):
+        clean_dict = recursive_to_dict(results)
+    with open(sim_file_path, "w",encoding="utf-8") as f:
+        json.dump(clean_dict, f, indent=4, ensure_ascii=False)
