@@ -75,5 +75,5 @@ if __name__ == "__main__":
 
     if isinstance(results, defaultdict):
         clean_dict = recursive_to_dict(results)
-    with open(sim_file_path, "w",encoding="utf-8") as f:
-        json.dump(clean_dict, f, indent=4, ensure_ascii=False)
+        with open(sim_file_path, "w",encoding="utf-8") as f:
+            json.dump(clean_dict, f, indent=4, ensure_ascii=False)

@@ -83,7 +83,7 @@ def update_table(temporary_table, home_team, away_team, outcome):
         
     return temporary_table
 
-def recursive_to_dict(d):
+def recursive_to_dict(d)-> dict:
     if isinstance(d, defaultdict):
         d = {k: recursive_to_dict(v) for k, v in d.items()}
     return d
@@ -106,7 +106,7 @@ def sort_by_position_priority(df):
 
        
         df_copy = df_copy.drop(index=best_team)
-    print(ordered_teams)
+    
     return df.loc[ordered_teams]
 
 
