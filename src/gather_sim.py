@@ -46,32 +46,36 @@ def return_whole_sim(elo_filepath, schedule_filepath, table_filepath, number_of_
 
    ### NOTE TO MYSELF: when downloading data convert points to ints and then delete this part of code
     table_data = {k: int(v) for k, v in table_data.items()}
-
+    rel_av_pionts=[]
     for _ in tqdm(range(number_of_simulations)):
         
         temporary_elo = elo_data.copy()
         temporary_table = table_data.copy()
         temporary_match_data = match_data.copy()
-        one_season_results=one_season_simulation(temporary_elo, temporary_table, temporary_list_home_teams=temporary_match_data["home_teams"].tolist(),
+        one_season_results,rel_av_piont=one_season_simulation(temporary_elo, temporary_table, temporary_list_home_teams=temporary_match_data["home_teams"].tolist(),
                                                  temporary_list_away_teams=temporary_match_data["away_teams"].tolist())
-        
+        rel_av_pionts.append(rel_av_piont)
         for team, position in one_season_results.items():
             simulated_results[team][position] += 1
 
 
-    return simulated_results   
+    return simulated_results,rel_av_pionts
     
 
 if __name__ == "__main__":
-    
+    import numpy as np
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
     elo_filepath = os.path.join(script_dir, "data", "elo_data.json")
     schedule_filepath = os.path.join(script_dir, "data", "schedule_data.json")
     table_filepath = os.path.join(script_dir, "data", "table_data.json")
     sim_file_path = os.path.join(script_dir, "data", "simulated_results.json")
-    results = return_whole_sim(elo_filepath, schedule_filepath, table_filepath)
-    
+    results,rel_points = return_whole_sim(elo_filepath, schedule_filepath, table_filepath)
+    print(np.mean(rel_points))
+    print(np.quantile(rel_points,0.25))
+    print(np.quantile(rel_points,0.75))
+    print(np.median(rel_points))
+    print(np.std(rel_points))
 
     if isinstance(results, defaultdict):
         clean_dict = recursive_to_dict(results)
