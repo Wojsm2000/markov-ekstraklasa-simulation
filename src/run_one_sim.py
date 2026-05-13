@@ -75,4 +75,4 @@ if __name__ == "__main__":
     temporary_match_data = match_data.copy()
     one_season_results,pnt=one_season_simulation(temporary_elo, temporary_table, temporary_list_home_teams=temporary_match_data["home_teams"].tolist(),
                                                  temporary_list_away_teams=temporary_match_data["away_teams"].tolist())
-    print(pnt)
+    print(pnt )

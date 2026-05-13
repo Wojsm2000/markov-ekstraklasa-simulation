@@ -75,6 +75,9 @@ if __name__ == "__main__":
     print(np.quantile(rel_points,0.25))
     print(np.quantile(rel_points,0.75))
     print(np.median(rel_points))
+    print(np.max(rel_points))
+    print(np.min(rel_points))
+    print(np.histogram(rel_points))
     print(np.std(rel_points))
 
     if isinstance(results, defaultdict):

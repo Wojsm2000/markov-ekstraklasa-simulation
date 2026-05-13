@@ -3,8 +3,8 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import json
 
-def return_match_table():
-    page = requests.get("http://www.90minut.pl/liga/1/liga14072.html")
+def return_match_table(url="http://www.90minut.pl/liga/1/liga14072.html"):
+    page = requests.get(url)
     soup = BeautifulSoup(page.content, features="html.parser")
     tr=soup.find_all("tr", {"align": "center"})
     tr=[row.text.strip() for row in tr]
