@@ -2,6 +2,7 @@ from elo_download import load_elo_data
 from schedule_table_download import return_match_data
 from table_download import return_match_table
 import json
+from datetime import datetime
 
 def save_table(filepath):
     data=return_match_table()
@@ -22,4 +23,4 @@ def save_elo(filepath,date):
 if __name__ == "__main__":
     save_table("src\\data\\table_data.json")
     save_schedule("src\\data\\schedule_data.json")
-    save_elo("src\\data\\elo_data.json","18-02-2026")
+    save_elo("src\\data\\elo_data.json",datetime.today().strftime('%d-%m-%Y'))
